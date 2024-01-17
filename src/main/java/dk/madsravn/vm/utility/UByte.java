@@ -1,5 +1,7 @@
 package dk.madsravn.vm.utility;
 
+import java.util.Objects;
+
 public class UByte {
     private final int value;
     private static int MIN_VALUE = 0;
@@ -9,6 +11,10 @@ public class UByte {
         // Clamp value
         int clampedValue = Math.max(Math.min(value, MAX_VALUE), MIN_VALUE);
         this.value = clampedValue & 0xff;
+    }
+
+    public int toInt() {
+        return value;
     }
 
     @Override
@@ -26,5 +32,11 @@ public class UByte {
             return this.value == otherUByte.value;
         }
         return false;
+    }
+
+    // Effective Java Item 11 - Always override hashCode if equals is overriden
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(value);
     }
 }

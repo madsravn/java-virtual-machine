@@ -15,6 +15,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>21</java.version>
+    <project.build.interpreterLocation>/Users/madsravn/projects/interpreter/target/interpreter-1.0-SNAPSHOT.jar</project.build.interpreterLocation>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
   </properties>
@@ -36,6 +37,16 @@
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>dk.madsravn.interpreter</groupId>
+      <artifactId>interpreter</artifactId>
+      <version>1.0</version>
+      <scope>system</scope>
+      <systemPath>${project.build.interpreterLocation}</systemPath>
+      <!-- TODO: Make this work!
+      <systemPath>${project.basedir}/lib/interpreter-1.0-SNAPSHOT.jar</systemPath>
+      -->
     </dependency>
   </dependencies>
   <build>
