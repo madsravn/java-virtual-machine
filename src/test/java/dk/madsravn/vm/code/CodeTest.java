@@ -3,6 +3,7 @@ package dk.madsravn.vm.code;
 import dk.madsravn.vm.utility.UByte;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,11 @@ public class CodeTest {
                         Opcode.CONSTANT,
                         Arrays.asList(65534),
                         Arrays.asList(Opcode.CONSTANT.getOpcodeValue(), new UByte(255), new UByte(254))
+                ),
+                new TestMakeData(
+                        Opcode.ADD,
+                        new ArrayList<>(),
+                        Arrays.asList(Opcode.ADD.getOpcodeValue())
                 )
         );
         // TODO: Do we want to declare this all the time? Do we need to?
@@ -57,13 +63,37 @@ public class CodeTest {
     }
 
     @Test
-    public void testInstructionString() {
+    public void testInstructionStringConstant() {
         List<List<UByte>> instructions = Arrays.asList(
                 Code.make(Opcode.CONSTANT, Arrays.asList(1)),
                 Code.make(Opcode.CONSTANT, Arrays.asList(2)),
                 Code.make(Opcode.CONSTANT, Arrays.asList(65535))
             );
         List<UByte> flatInstructions = instructions.stream().flatMap(List::stream).collect(Collectors.toList());
-        System.out.println(Code.string(flatInstructions));
+        String expected = """
+                0000 OpConstant 1
+                0003 OpConstant 2
+                0006 OpConstant 65535 
+                """;
+        assertEquals(Code.string(flatInstructions), expected);
+    }
+
+    @Test
+    public void testInstructionStringAdd() {
+        List<List<UByte>> instructions = Arrays.asList(
+                Code.make(Opcode.CONSTANT, Arrays.asList(1)),
+                Code.make(Opcode.CONSTANT, Arrays.asList(2)),
+                Code.make(Opcode.ADD, Arrays.asList()),
+                Code.make(Opcode.ADD, Arrays.asList())
+        );
+        // TODO: Det er string metoden der er noget galt med
+        List<UByte> flatInstructions = instructions.stream().flatMap(List::stream).collect(Collectors.toList());
+        String expected = """
+                0000 OpConstant 1
+                0003 OpConstant 2
+                0006 OpAdd
+                0007 OpAdd
+                """;
+        assertEquals(Code.string(flatInstructions), expected);
     }
 }

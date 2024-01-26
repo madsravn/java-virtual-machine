@@ -4,6 +4,7 @@ import dk.madsravn.vm.utility.UByte;
 
 public enum Opcode {
     CONSTANT(new UByte(1)),
+    ADD(new UByte(2)),
     ;
     private final UByte opcodeValue;
 

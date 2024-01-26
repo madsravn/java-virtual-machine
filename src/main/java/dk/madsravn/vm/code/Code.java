@@ -1,6 +1,7 @@
 package dk.madsravn.vm.code;
 
 import dk.madsravn.vm.utility.UByte;
+import dk.madsravn.vm.utility.Utility;
 
 import java.sql.Array;
 import java.util.*;
@@ -13,6 +14,7 @@ public class Code {
     static {
         definitions = new HashMap<>();
         definitions.put(Opcode.CONSTANT.getOpcodeValue(), new Definition("OpConstant", Arrays.asList(2)));
+        definitions.put(Opcode.ADD.getOpcodeValue(), new Definition("OpAdd", Arrays.asList()));
     }
 
     public static Optional<Definition> lookup(UByte opcode) {
@@ -56,11 +58,12 @@ public class Code {
         for(int width : definition.getOperandWidths()) {
             switch (width) {
                 case 2:
-                    int value = (instructions.get(0).toInt() << 8) + instructions.get(1).toInt();
+                    int value = Utility.readInt16(instructions, 0);
                     operands.add(value);
                 default:
             }
         }
+        // TODO: For other sizes
         return new Tuple(operands, 2);
     }
 
@@ -84,6 +87,8 @@ public class Code {
             throw new IllegalStateException("Operand length " + operands.size() + " does not match defined size of " + definition.getOperandWidths().size());
         }
         switch (definition.getOperandWidths().size()) {
+            case 0:
+                return definition.getName();
             case 1:
                 return definition.getName() + " " + operands.get(0);
         }

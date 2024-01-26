@@ -13,4 +13,12 @@ public class Bytecode {
         this.instructions = instructions;
         this.constants = constants;
     }
+
+    public List<UByte> getInstructions() {
+        return instructions;
+    }
+
+    public List<IObject> getConstants() {
+        return constants;
+    }
 }

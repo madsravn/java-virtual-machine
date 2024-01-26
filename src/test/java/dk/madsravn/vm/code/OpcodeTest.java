@@ -12,5 +12,8 @@ public class OpcodeTest {
     public void testToString() {
         Opcode constant = Opcode.CONSTANT;
         assertEquals(constant.toString(), "[CONSTANT - 1]");
+
+        Opcode add = Opcode.ADD;
+        assertEquals(add.toString(), "[ADD - 2]");
     }
 }
